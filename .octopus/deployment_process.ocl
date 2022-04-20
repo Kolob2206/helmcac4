@@ -53,3 +53,32 @@ step "Deploy Helm Template" {
         }
     }
 }
+
+step "Deploy Helm Export" {
+    properties = {
+        Octopus.Action.TargetRoles = "client"
+    }
+
+    action {
+        properties = {
+            Octopus.Action.Package.FeedId = "Helm 1"
+            Octopus.Action.Package.PackageId = "airflow"
+            Octopus.Action.Template.Id = "ActionTemplates-1141"
+            Octopus.Action.Template.Version = "0"
+            Template.Helm.Values = "#{Helm.Values}"
+            Template.Package = "{\"PackageId\":\"airflow\",\"FeedId\":\"Helm 1\"}"
+        }
+        worker_pool_variable = ""
+
+        packages {
+            acquisition_location = "Server"
+            feed = "Helm 1"
+            package_id = "airflow"
+            properties = {
+                PackageParameterName = "Template.Package"
+                SelectionMode = "deferred"
+                ValuesFilePath = ""
+            }
+        }
+    }
+}
