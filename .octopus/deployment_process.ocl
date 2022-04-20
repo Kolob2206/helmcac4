@@ -54,7 +54,7 @@ step "Deploy Helm Template" {
     }
 }
 
-step "Deploy Helm Export" {
+step "Deploy Helm Export from Template" {
     properties = {
         Octopus.Action.TargetRoles = "client"
     }
