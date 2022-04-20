@@ -25,3 +25,32 @@ step "Package Custom Templates" {
         }
     }
 }
+
+step "Deploy Helm" {
+    properties = {
+        Octopus.Action.TargetRoles = "client"
+    }
+
+    action {
+        properties = {
+            Octopus.Action.Package.FeedId = "Helm 1"
+            Octopus.Action.Package.PackageId = "artifactory"
+            Octopus.Action.Template.Id = "ActionTemplates-1135"
+            Octopus.Action.Template.Version = "5"
+            pack = "{\"PackageId\":\"artifactory\",\"FeedId\":\"Helm 1\"}"
+            Template.Helm.Values = "test"
+        }
+        worker_pool_variable = ""
+
+        packages {
+            acquisition_location = "Server"
+            feed = "Helm 1"
+            package_id = "artifactory"
+            properties = {
+                PackageParameterName = "pack"
+                SelectionMode = "deferred"
+                ValuesFilePath = ""
+            }
+        }
+    }
+}
