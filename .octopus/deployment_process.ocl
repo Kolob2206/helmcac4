@@ -33,11 +33,23 @@ step "Deploy Helm TEmplate" {
 
     action {
         properties = {
+            Octopus.Action.Package.FeedId = "Helm 1"
+            Octopus.Action.Package.PackageId = "artifactory"
             Octopus.Action.Template.Id = "ActionTemplates-1135"
-            Octopus.Action.Template.Version = "6"
+            Octopus.Action.Template.Version = "7"
             pack = "{\"PackageId\":\"artifactory\",\"FeedId\":\"Helm 1\"}"
             Template.Helm.Values = "test"
         }
         worker_pool_variable = ""
+
+        packages {
+            acquisition_location = "Server"
+            feed = "Helm 1"
+            package_id = "artifactory"
+            properties = {
+                PackageParameterName = "pack"
+                SelectionMode = "deferred"
+            }
+        }
     }
 }
